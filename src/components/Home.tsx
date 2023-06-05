@@ -12,8 +12,8 @@ export default function Home() {
     { label: "UGA", value: "1" },
   ];
   return (
-    <div className="w-[100%] py-[5%] h-screen flex flex-col items-center">
-      <h1 className=" text-3xl text-center pb-[8%]">Exchange money</h1>
+    <div className="w-[100%] pt-4 h-screen flex flex-col items-center">
+      <h1 className=" text-3xl text-center pb-[5%]">Exchange money</h1>
       <div className="w-[100%] flex gap-[5%] justify-center">
         <CurrencyCard options={options} />
         <CurrencyCard options={options2} />

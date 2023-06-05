@@ -23,15 +23,19 @@ export default function Dropdown(props: props) {
   };
 
   return (
-    <div className="relative">
-      <select className="w-[100%]" value={value} onChange={handleChange}>
+    <div className="relative pb-2 hover:border-b-black border-b-[1px]">
+      <select
+        className="w-[100%] outline-none"
+        value={value}
+        onChange={handleChange}
+      >
         {options.map((option, index) => (
           <option key={index} value={option.value}>
             {option.label}
           </option>
         ))}
       </select>
-      <div className=" absolute bottom-[0%] right-4 text-right px-1 text-slate-400">
+      <div className=" absolute bottom-[25%] right-4 text-right px-1 text-slate-400">
         USD {value}
       </div>
     </div>

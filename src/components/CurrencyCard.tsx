@@ -9,10 +9,16 @@ interface props {
 export default function CurrencyCard(props: props) {
   const options = props.options;
   return (
-    <div className=" bg-white w-[40%] flex flex-col p-4 border">
-      <div className=" text-slate-400">From</div>
-      <Dropdown options={options} />
-      <hr className="bg-black self-center m-4 w-[100%]" />
+    <div className="  w-[40%] border">
+      <div className=" bg-white w-[100%] flex flex-col px-4 pt-2 ">
+        <div className=" text-slate-400 ">From</div>
+        <Dropdown options={options} />
+        <hr className="" />
+      </div>
+      <div>
+        <span className="text-[400%]">$</span>
+        <input className="h-[30vh] w-10/12 text-[400%] outline-none" type="" />
+      </div>
     </div>
   );
 }
