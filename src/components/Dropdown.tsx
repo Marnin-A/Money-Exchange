@@ -1,14 +1,20 @@
 import * as React from "react";
 type option = {
   label: string;
-  value: number;
+  value: string;
 };
 interface props {
   options: Array<option>;
 }
 
 export default function Dropdown(props: props) {
-  const [value, setValue] = React.useState(String);
+  const options = props.options;
+  const firstOptionLabel = options[0].label;
+  const firstOptionValue = options[0].value;
+
+  const [value, setValue] = React.useState(
+    firstOptionLabel === "USD" ? "1" : firstOptionValue
+  );
 
   const handleChange = (e: {
     target: { value: React.SetStateAction<string> };
@@ -16,15 +22,18 @@ export default function Dropdown(props: props) {
     setValue(e.target.value);
   };
 
-  const options = props.options;
-
   return (
-    <div>
+    <div className="relative">
       <select className="w-[100%]" value={value} onChange={handleChange}>
-        {options.map((option) => (
-          <option value={option.value}>{option.label}</option>
+        {options.map((option, index) => (
+          <option key={index} value={option.value}>
+            {option.label}
+          </option>
         ))}
       </select>
+      <div className=" absolute bottom-[0%] right-4 text-right px-1 text-slate-400">
+        USD {value}
+      </div>
     </div>
   );
 }
