@@ -5,6 +5,7 @@ type option = {
 };
 interface props {
   options: Array<option>;
+  setSign: Function;
 }
 
 export default function Dropdown(props: props) {
