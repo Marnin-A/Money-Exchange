@@ -1,4 +1,4 @@
-import Dropdown from "./Dropdown";
+import Accounts from "./Accounts";
 export type option = {
   label: string;
   value: string;
@@ -14,7 +14,7 @@ export default function CurrencyCard(props: CurrencyProps) {
     <div className="  w-[40%] border">
       <div className=" bg-white w-[100%] flex flex-col px-4 pt-2 ">
         <div className=" text-slate-400 ">From</div>
-        <Dropdown options={options} />
+        <Accounts options={options} />
       </div>
     </div>
   );

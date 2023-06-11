@@ -1,7 +1,7 @@
 import * as React from "react";
 import { CurrencyProps, option } from "./CurrencyCard";
 
-export default function Dropdown(props: CurrencyProps) {
+export default function Accounts(props: CurrencyProps) {
   const options = props.options;
   const firstOptionLabel = options[0].label;
   const firstOptionValue = options[0].value;
