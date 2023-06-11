@@ -2,14 +2,14 @@ import CurrencyCard from "./CurrencyCard";
 
 export default function Home() {
   const options = [
-    { label: "USD", value: "1 " },
-    { label: "GBP", value: "0.5889" },
-    { label: "NGN", value: "0.2223" },
+    { label: "USD", value: "1 ", sign: "$" },
+    { label: "GBP", value: "0.5889", sign: "P" },
+    { label: "NGN", value: "0.2223", sign: "N" },
   ];
   const options2 = [
-    { label: "SA", value: "0.2223" },
-    { label: "NZL", value: "0.5889" },
-    { label: "UGA", value: "1" },
+    { label: "SA", value: "0.2223", sign: "A" },
+    { label: "NZL", value: "0.5889", sign: "Z" },
+    { label: "UGA", value: "1", sign: "G" },
   ];
   return (
     <div className="w-[100%] pt-4 h-screen flex flex-col items-center">
