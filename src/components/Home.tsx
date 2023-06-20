@@ -1,4 +1,5 @@
 import CurrencyCard from "./CurrencyCard";
+import ButtonAndRates from "./ButtonAndRates";
 
 export default function Home() {
   const options = [
@@ -17,6 +18,9 @@ export default function Home() {
       <div className="w-[100%] flex gap-[5%] justify-center">
         <CurrencyCard options={options} />
         <CurrencyCard options={options2} />
+      </div>
+      <div className="w-full px-[10%]">
+        <ButtonAndRates />
       </div>
     </div>
   );

@@ -81,7 +81,7 @@ export default function Accounts(props: CurrencyProps) {
       <hr className="" />
       <div>
         <span className="text-[400%]">{value.sign}</span>
-        <input className="h-[30vh] w-10/12 text-[400%] outline-none" type="" />
+        <input className="h-[20vh] w-10/12 text-[400%] outline-none" type="" />
       </div>
     </div>
   );
