@@ -1,7 +1,28 @@
+import { signInWithEmailAndPassword } from "firebase/auth";
 import * as React from "react";
+import { useNavigate } from "react-router";
+import { auth } from "../firebase/firebase";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [user, setUser] = React.useState({ email: "", password: "" });
+
+  const handleLogin = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    signInWithEmailAndPassword(auth, user.email, user.password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        navigate("/home");
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+
+        console.log(errorCode, errorMessage);
+      });
+  };
   return (
     <div className="min-h-full w-[40%] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="text-center font-bold text-2xl">Log in</div>
@@ -64,7 +85,7 @@ export default function Login() {
               <button
                 type="submit"
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                // onClick={LoginUser}
+                onClick={handleLogin}
               >
                 Log in
               </button>

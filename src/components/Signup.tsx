@@ -1,10 +1,55 @@
 import React from "react";
+import { useNavigate } from "react-router";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/firebase.js";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 export default function Signup() {
+  const navigate = useNavigate();
   const [user, setUser] = React.useState({ name: "", email: "", password: "" });
-  const signUpUser = async (e: {
-    target: { value: React.SetStateAction<object> };
-  }) => {};
+  const [modalInfo, setModalInfo] = React.useState({
+    open: false,
+    errorMessage: "",
+  });
+  const errorMessage = modalInfo.errorMessage.toString();
+
+  const handleUserSignup = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    await createUserWithEmailAndPassword(auth, user.email, user.password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        navigate("/");
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setModalInfo({
+          ...modalInfo,
+          open: true,
+          errorMessage: errorMessage,
+        });
+        console.log(errorCode, errorMessage);
+        // ..
+      });
+  };
+  const handleClose = () => setModalInfo({ ...modalInfo, open: false });
   return (
     <div className="min-h-full w-[40%] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="text-center text-2xl font-bold">Sign up</div>
@@ -76,7 +121,7 @@ export default function Signup() {
               <button
                 type="submit"
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                // onClick={signUpUser}
+                onClick={handleUserSignup}
               >
                 Sign Up
               </button>
@@ -160,6 +205,24 @@ export default function Signup() {
           </div>
         </div>
       </div>
+      <Modal
+        open={modalInfo.open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            <span className=" text-lg font-semibold">Weak Password</span>
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            {errorMessage ==
+            "Firebase: Password should be at least 6 characters (auth/weak-password)."
+              ? "Password should be at least 6 characters."
+              : ""}
+          </Typography>
+        </Box>
+      </Modal>
     </div>
   );
 }
