@@ -2,6 +2,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import * as React from "react";
 import { useNavigate } from "react-router";
 import { auth } from "../firebase/firebase";
+//TODO: Add alternative Login
 
 export default function Login() {
   const navigate = useNavigate();

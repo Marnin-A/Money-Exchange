@@ -5,6 +5,7 @@ import { auth } from "../firebase/firebase.js";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+//TODO: Add alternative Signup
 
 const style = {
   position: "absolute" as "absolute",
