@@ -4,7 +4,8 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
-import { auth, googleAuth } from "../firebase/firebase.ts";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db, googleAuth } from "../firebase/firebase.ts";
 import { signInWithPopup } from "firebase/auth";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -32,12 +33,23 @@ export default function Signup() {
   });
   const errorMessage = modalInfo.errorMessage.toString();
 
+  const setDefaultAccountBalance = async (id: string) => {
+    await setDoc(doc(db, "User Account Details", id), {
+      AUD: 10000,
+      CAD: 10000,
+      EUR: 10000,
+      GBP: 10000,
+      USD: 10000,
+    });
+  };
+
   const handleEmailSignup = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     await createUserWithEmailAndPassword(auth, user.email, user.password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+        setDefaultAccountBalance(user.uid);
         console.log(user);
         navigate("/");
         // ...
@@ -54,6 +66,7 @@ export default function Signup() {
         // ..
       });
   };
+
   const handleGoogleSignup = () => {
     signInWithPopup(auth, googleAuth)
       .then((result) => {
@@ -66,6 +79,7 @@ export default function Signup() {
         console.log(user);
         // IdP data available using getAdditionalUserInfo(result)
         // ...
+        setDefaultAccountBalance(user.uid);
         navigate("/home");
       })
       .catch((error) => {
