@@ -6,11 +6,31 @@ import {
 import * as React from "react";
 import { useNavigate } from "react-router";
 import { auth, googleAuth } from "../firebase/firebase";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
 //TODO: Add alternative Login
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 export default function Login() {
   const navigate = useNavigate();
   const [user, setUser] = React.useState({ email: "", password: "" });
+  const [modalInfo, setModalInfo] = React.useState({
+    open: false,
+    errorMessage: "",
+  });
+  const errorMessage = modalInfo.errorMessage.toString();
 
   const handleLogin = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -24,6 +44,7 @@ export default function Login() {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        setModalInfo({ ...modalInfo, open: true, errorMessage: errorMessage });
 
         console.log(errorCode, errorMessage);
       });
@@ -51,8 +72,11 @@ export default function Login() {
         // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
         // ...
+        console.error({ errorCode, errorMessage, email, credential });
       });
   };
+  const handleClose = () => setModalInfo({ ...modalInfo, open: false });
+  console.log(errorMessage);
 
   return (
     <div className="min-h-full w-[40%] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -171,6 +195,29 @@ export default function Login() {
           </div>
         </div>
       </div>
+      <Modal
+        open={modalInfo.open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography
+            id="modal-modal-title"
+            className=" flex justify-center"
+            variant="h6"
+            component="h2"
+          >
+            <span className=" text-lg font-semibold text-center">
+              {errorMessage == "Firebase: Error (auth/wrong-password)."
+                ? "Invalid Password"
+                : errorMessage == "Firebase: Error (auth/user-not-found)."
+                ? "Invalid email"
+                : errorMessage}
+            </span>
+          </Typography>
+        </Box>
+      </Modal>
     </div>
   );
 }

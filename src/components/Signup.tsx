@@ -77,6 +77,7 @@ export default function Signup() {
         // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
         // ...
+        console.error({ errorCode, errorMessage, email, credential });
       });
   };
   const handleClose = () => setModalInfo({ ...modalInfo, open: false });
@@ -226,7 +227,7 @@ export default function Signup() {
             {errorMessage ==
             "Firebase: Password should be at least 6 characters (auth/weak-password)."
               ? "Password should be at least 6 characters."
-              : ""}
+              : errorMessage}
           </Typography>
         </Box>
       </Modal>

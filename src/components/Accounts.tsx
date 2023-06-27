@@ -1,4 +1,5 @@
 import * as React from "react";
+import { doc, setDoc } from "firebase/firestore";
 import { CurrencyProps, option } from "./CurrencyCard";
 
 export default function Accounts(props: CurrencyProps) {

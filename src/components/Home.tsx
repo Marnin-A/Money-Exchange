@@ -3,14 +3,18 @@ import ButtonAndRates from "./ButtonAndRates";
 
 export default function Home() {
   const options = [
-    { label: "USD", value: "1 ", sign: "$" },
-    { label: "GBP", value: "0.5889", sign: "P" },
-    { label: "NGN", value: "0.2223", sign: "N" },
+    { label: "GBP", value: "1 ", sign: "$" },
+    { label: "USD", value: "0.5889", sign: "P" },
+    { label: "EUR", value: "0.2223", sign: "N" },
+    { label: "AUD", value: "0.5889", sign: "P" },
+    { label: "CAD", value: "0.2223", sign: "N" },
   ];
   const options2 = [
-    { label: "SA", value: "0.2223", sign: "A" },
-    { label: "NZL", value: "0.5889", sign: "Z" },
-    { label: "UGA", value: "1", sign: "G" },
+    { label: "GBP", value: "1 ", sign: "$" },
+    { label: "USD", value: "0.5889", sign: "P" },
+    { label: "EUR", value: "0.2223", sign: "N" },
+    { label: "AUD", value: "0.5889", sign: "P" },
+    { label: "CAD", value: "0.2223", sign: "N" },
   ];
   return (
     <div className="w-[100%] pt-4 h-screen flex flex-col items-center">
