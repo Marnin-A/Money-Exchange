@@ -1,4 +1,5 @@
 import "./App.css";
+import { RecoilRoot } from "recoil";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
@@ -12,7 +13,9 @@ function App() {
   ]);
   return (
     <div className=" h-screen flex flex-col items-center justify-center">
-      <RouterProvider router={router} />
+      <RecoilRoot>
+        <RouterProvider router={router} />
+      </RecoilRoot>
     </div>
   );
 }

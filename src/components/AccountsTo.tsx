@@ -1,13 +1,14 @@
 import * as React from "react";
-import { doc, setDoc } from "firebase/firestore";
-import { CurrencyProps, option } from "./CurrencyCard";
+import { setCurrentSign, setCurrentValueInDollar } from "./AccountsFrom";
+
+import { CurrencyProps, option } from "./FromCurrencyCard";
 
 export default function Accounts(props: CurrencyProps) {
   const options = props.options;
   const firstOptionLabel = options[0].label;
   const firstOptionValue = options[0].value;
   const firstOptionSign = options[0].sign;
-  //Change value to label
+
   const [value, setValue] = React.useState<option>(
     firstOptionLabel === "USD"
       ? { label: "USD", value: "1", sign: "$" }
@@ -18,38 +19,6 @@ export default function Accounts(props: CurrencyProps) {
         }
   );
 
-  function setCurrentValueInDollar(label: string) {
-    switch (label) {
-      case "GBP":
-        return "0.5889";
-      case "NGN":
-        return "0.2223";
-      case "SA":
-        return "0.2223";
-      case "NZL":
-        return "0.5889";
-      case "UGA":
-        return "1";
-      default:
-        return "1";
-    }
-  }
-  function setCurrentSign(label: string) {
-    switch (label) {
-      case "GBP":
-        return "P";
-      case "NGN":
-        return "N";
-      case "SA":
-        return "A";
-      case "NZL":
-        return "Z";
-      case "UGA":
-        return "G";
-      default:
-        return "$";
-    }
-  }
   const handleChange = (e: {
     target: { value: React.SetStateAction<any> };
   }) => {
@@ -82,7 +51,7 @@ export default function Accounts(props: CurrencyProps) {
       <hr className="" />
       <div>
         <span className="text-[400%]">{value.sign}</span>
-        <input className="h-[20vh] w-10/12 text-[400%] outline-none" type="" />
+        <span className="h-[20vh] w-10/12 text-[400%] outline-none"></span>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import Accounts from "./Accounts";
+import Accounts from "./AccountsFrom";
 export type option = {
   label: string;
   value: string;
@@ -7,7 +7,7 @@ export type option = {
 export interface CurrencyProps {
   options: Array<option>;
 }
-export default function CurrencyCard(props: CurrencyProps) {
+export default function FromCurrencyCard(props: CurrencyProps) {
   const options = props.options;
 
   return (
