@@ -1,7 +1,7 @@
 import { useRecoilValue } from "recoil";
-import { exchangeRateState } from "./State_management/atoms";
+import { ExchangeRateState } from "./State_management/atoms";
 export default function ButtonAndRates() {
-  const exchangeRate = useRecoilValue(exchangeRateState);
+  const exchangeRate = useRecoilValue(ExchangeRateState);
 
   return (
     <div className=" w-[100%] grid grid-cols-2 gap-[12%] items-center">
