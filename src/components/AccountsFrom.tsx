@@ -1,9 +1,12 @@
 import * as React from "react";
-import { exchangeRateState } from "./State_management/atoms";
+import {
+  AmountToConvertState,
+  ExchangeRateState,
+} from "./State_management/atoms";
 import { doc, setDoc } from "firebase/firestore";
 
 import { CurrencyProps, option } from "./FromCurrencyCard";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 const date = new Date();
 const year = date.getFullYear();
 const month = date.getMonth();
@@ -12,11 +15,15 @@ const todaysDate: string = `${year}-${month}-${day}`;
 const yesterdaysDate: string = `${year}-${month}-${day - 1}`;
 
 export default function Accounts(props: CurrencyProps) {
+  // Prop values
   const options = props.options;
   const firstOptionLabel = options[0].label;
   const firstOptionValue = options[0].value;
   const firstOptionSign = options[0].sign;
-
+  // States
+  const [todaysChange, setTodaysChange] = React.useState(0);
+  const [amountToConvert, setAmountToConvert] =
+    useRecoilState(AmountToConvertState);
   const [value, setValue] = React.useState<option>(
     firstOptionLabel === "USD"
       ? { label: "USD", value: "1", sign: "$" }
@@ -26,8 +33,7 @@ export default function Accounts(props: CurrencyProps) {
           sign: firstOptionSign,
         }
   );
-  const [todaysChange, setTodaysChange] = React.useState(0);
-  const setExchangeRate = useSetRecoilState(exchangeRateState);
+  const setExchangeRate = useSetRecoilState(ExchangeRateState);
 
   const host = "api.frankfurter.app";
   const convertCurrency = async (
@@ -63,7 +69,7 @@ export default function Accounts(props: CurrencyProps) {
     // getRateChange(value.label,);
   }, [value.label]);
 
-  const handleChange = (e: {
+  const handleAccountSelect = (e: {
     target: { value: React.SetStateAction<any> };
   }) => {
     setValue({
@@ -80,7 +86,7 @@ export default function Accounts(props: CurrencyProps) {
         <select
           className="w-[100%] outline-none"
           value={value.label}
-          onChange={handleChange}
+          onChange={handleAccountSelect}
         >
           {options.map((option, index) => (
             <option key={index} value={option.label}>
@@ -95,7 +101,16 @@ export default function Accounts(props: CurrencyProps) {
       <hr className="" />
       <div>
         <span className="text-[400%]">{value.sign}</span>
-        <input className="h-[20vh] w-10/12 text-[400%] outline-none" type="" />
+        <input
+          className="h-[20vh] w-10/12 text-[400%] outline-none"
+          value={amountToConvert.amount!}
+          onChange={(e) => {
+            setAmountToConvert({
+              ...amountToConvert,
+              amount: Number(e.target.value),
+            });
+          }}
+        />
       </div>
     </div>
   );

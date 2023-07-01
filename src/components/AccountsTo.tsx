@@ -2,13 +2,22 @@ import * as React from "react";
 import { setCurrentSign, setCurrentValueInDollar } from "./AccountsFrom";
 
 import { CurrencyProps, option } from "./FromCurrencyCard";
+import { useRecoilValue } from "recoil";
+import {
+  AmountToConvertState,
+  ExchangeRateState,
+} from "./State_management/atoms";
 
 export default function Accounts(props: CurrencyProps) {
+  // Prop values
   const options = props.options;
   const firstOptionLabel = options[0].label;
   const firstOptionValue = options[0].value;
   const firstOptionSign = options[0].sign;
 
+  // States
+  const { amount } = useRecoilValue(AmountToConvertState);
+  const { rates } = useRecoilValue(ExchangeRateState);
   const [value, setValue] = React.useState<option>(
     firstOptionLabel === "USD"
       ? { label: "USD", value: "1", sign: "$" }
@@ -18,7 +27,8 @@ export default function Accounts(props: CurrencyProps) {
           sign: firstOptionSign,
         }
   );
-
+  const convertionRate = rates.USD;
+  const finalAmount = (amount * convertionRate).toString();
   const handleChange = (e: {
     target: { value: React.SetStateAction<any> };
   }) => {
@@ -49,9 +59,11 @@ export default function Accounts(props: CurrencyProps) {
         </div>
       </div>
       <hr className="" />
-      <div>
-        <span className="text-[400%]">{value.sign}</span>
-        <span className="h-[20vh] w-10/12 text-[400%] outline-none"></span>
+      <div className="flex">
+        <span className="text-[400%] w-min">{value.sign}</span>
+        <div className="h-[20vh] w-10/12 text-[400%] outline-none overflow-hidden">
+          {finalAmount}
+        </div>
       </div>
     </div>
   );
