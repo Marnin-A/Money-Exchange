@@ -1,12 +1,18 @@
 import * as React from "react";
 import { setCurrentSign, setCurrentValueInDollar } from "./AccountsFrom";
-
 import { CurrencyProps, option } from "./FromCurrencyCard";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
-  AmountToConvertState,
   ExchangeRateState,
+  OriginalCurrencyState,
+  OriginalAmountState,
+  NewCurrencyState,
 } from "./State_management/atoms";
+
+// Determine how the rate data fetched should look
+interface rateObj {
+  [key: string]: number;
+}
 
 export default function Accounts(props: CurrencyProps) {
   // Prop values
@@ -15,9 +21,12 @@ export default function Accounts(props: CurrencyProps) {
   const firstOptionValue = options[0].value;
   const firstOptionSign = options[0].sign;
 
-  // States
-  const { amount } = useRecoilValue(AmountToConvertState);
-  const { rates } = useRecoilValue(ExchangeRateState);
+  // States;
+  const originalCurrency = useRecoilValue(OriginalCurrencyState);
+  const { amount } = useRecoilValue(OriginalAmountState);
+  const setNewCurrency = useSetRecoilState(NewCurrencyState);
+  const [conversionRate, setConversionRate] = useRecoilState(ExchangeRateState);
+  const [finalAmount, setFinalAmount] = React.useState(1);
   const [value, setValue] = React.useState<option>(
     firstOptionLabel === "USD"
       ? { label: "USD", value: "1", sign: "$" }
@@ -27,9 +36,8 @@ export default function Accounts(props: CurrencyProps) {
           sign: firstOptionSign,
         }
   );
-  const convertionRate = rates.USD;
-  const finalAmount = (amount * convertionRate).toString();
-  const handleChange = (e: {
+
+  const handleCurrencyChange = (e: {
     target: { value: React.SetStateAction<any> };
   }) => {
     setValue({
@@ -39,6 +47,23 @@ export default function Accounts(props: CurrencyProps) {
       sign: setCurrentSign(e.target.value),
     });
   };
+  // Fetch and set rate information
+  const getRate = async () => {
+    const currency = value.label;
+    const rateObj = await convertCurrency(
+      originalCurrency.currency,
+      value.label,
+      1
+    );
+    const rate = rateObj[currency];
+    setConversionRate(rate);
+  };
+
+  React.useEffect(() => {
+    setNewCurrency(value.label);
+    getRate();
+    setFinalAmount(amount * conversionRate);
+  }, [value.label, amount]);
 
   return (
     <div className="">
@@ -46,7 +71,7 @@ export default function Accounts(props: CurrencyProps) {
         <select
           className="w-[100%] outline-none"
           value={value.label}
-          onChange={handleChange}
+          onChange={handleCurrencyChange}
         >
           {options.map((option, index) => (
             <option key={index} value={option.label}>
@@ -68,3 +93,21 @@ export default function Accounts(props: CurrencyProps) {
     </div>
   );
 }
+const host = "api.frankfurter.app";
+const convertCurrency = (
+  initialCurrency: string,
+  destinationCurrency: string,
+  amount: number
+): Promise<rateObj> => {
+  return fetch(
+    `https://${host}/latest?amount=${amount}&from=${initialCurrency}&to=${destinationCurrency}`
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      const rate = data.rates;
+      console.log(rate);
+      console.log(data);
+      return rate;
+    })
+    .catch((error) => console.error(error));
+};

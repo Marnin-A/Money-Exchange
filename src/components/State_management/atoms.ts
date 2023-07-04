@@ -1,12 +1,26 @@
-import { atom } from "recoil";
+import { DefaultValue, atom, selector } from "recoil";
 
+const key: string = JSON.parse(localStorage.getItem("destinationCurrency")!);
+const rate = { [key]: 1 };
+
+// export const ExchangeRateState = atom({
+//   key: "exchangeRate",
+//   default: {
+//     ...rate,
+//   },
+// });
+export const NewCurrencyState = atom({
+  key: "newCurrency",
+  default: "GBP",
+});
 export const ExchangeRateState = atom({
+  key: "exchangeRateState",
+  default: 1,
+});
+export const NewExchangeRateState = selector({
   key: "exchangeRate",
-  default: {
-    amount: 1,
-    base: "GBP",
-    date: "2023-06-28",
-    rates: { USD: 1.2657 },
+  get: ({ get }) => {
+    return { currency: get(NewCurrencyState), rate: get(ExchangeRateState) };
   },
 });
 export const TodaysChangeState = atom({
@@ -18,15 +32,15 @@ export const TodaysChangeState = atom({
     rates: { USD: 1.2657 },
   },
 });
-export const AmountToConvertState = atom({
-  key: "amountToConvert",
+export const OriginalAmountState = atom({
+  key: "originalAmountConvert",
   default: {
     amount: 1,
   },
 });
-export const RecieveingCurrencyState = atom({
-  key: "recieveingCurrency",
+export const OriginalCurrencyState = atom({
+  key: "originalCurrency",
   default: {
-    currency: "",
+    currency: "USD",
   },
 });

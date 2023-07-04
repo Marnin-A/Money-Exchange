@@ -4,8 +4,8 @@ import ToCurrencyCard from "./ToCurrency";
 
 export default function Home() {
   const options = [
-    { label: "GBP", value: "1 ", sign: "£" },
     { label: "USD", value: "0.5889", sign: "$" },
+    { label: "GBP", value: "1 ", sign: "£" },
     { label: "EUR", value: "0.2223", sign: "€" },
     { label: "AUD", value: "0.5889", sign: "AU$" },
     { label: "CAD", value: "0.2223", sign: "CA$" },
