@@ -63,7 +63,7 @@ export default function Accounts(props: CurrencyProps) {
     setNewCurrency(value.label);
     getRate();
     setFinalAmount(amount * conversionRate);
-  }, [value.label, amount]);
+  }, [value.label, amount, originalCurrency]);
 
   return (
     <div className="">
@@ -84,10 +84,10 @@ export default function Accounts(props: CurrencyProps) {
         </div>
       </div>
       <hr className="" />
-      <div className="flex">
-        <span className="text-[400%] w-min">{value.sign}</span>
-        <div className="h-[20vh] w-10/12 text-[400%] outline-none overflow-hidden">
-          {finalAmount}
+      <div className="flex mt-4">
+        <span className="text-[350%] w-min">{value.sign}</span>
+        <div className="h-[20vh] w-10/12 text-[350%] outline-none overflow-hidden">
+          {finalAmount.toFixed(2)}
         </div>
       </div>
     </div>

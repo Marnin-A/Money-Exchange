@@ -78,11 +78,13 @@ export default function Accounts(props: CurrencyProps) {
         </div>
       </div>
       <hr className="" />
-      <div>
-        <span className="text-[400%]">{value.sign}</span>
+      <div className="flex items-center">
+        <span className="text-[350%]">{value.sign}</span>
         <input
-          className="h-[20vh] w-10/12 text-[400%] outline-none"
-          value={originalAmount.amount}
+          className="h-[20vh] w-10/12 text-[350%] outline-none overflow-hidden"
+          type="number"
+          pattern="^[1-9]\d*(\.\d+)?"
+          value={originalAmount.amount.toString()}
           onChange={(e) => {
             setOriginalAmount({
               ...originalAmount,

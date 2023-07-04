@@ -35,7 +35,7 @@ export const TodaysChangeState = atom({
 export const OriginalAmountState = atom({
   key: "originalAmountConvert",
   default: {
-    amount: 1,
+    amount: 0,
   },
 });
 export const OriginalCurrencyState = atom({
