@@ -3,7 +3,7 @@ import {
   OriginalAmountState,
   OriginalCurrencyState,
 } from "./State_management/atoms";
-import { doc, setDoc } from "firebase/firestore";
+// import { doc, setDoc } from "firebase/firestore";
 import { CurrencyProps, option } from "./FromCurrencyCard";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
@@ -14,7 +14,7 @@ export default function Accounts(props: CurrencyProps) {
   const firstOptionValue = options[0].value;
   const firstOptionSign = options[0].sign;
   // States
-  const [todaysChange, setTodaysChange] = React.useState(0);
+  // const [todaysChange, setTodaysChange] = React.useState(0);
   const [originalAmount, setOriginalAmount] =
     useRecoilState(OriginalAmountState);
   const [value, setValue] = React.useState<option>(
@@ -125,9 +125,9 @@ export function setCurrentValueInDollar(label: string) {
       return "1";
   }
 }
-const date = new Date();
-const year = date.getFullYear();
-const month = date.getMonth();
-const day = date.getDate();
-const todaysDate: string = `${year}-${month}-${day}`;
-const yesterdaysDate: string = `${year}-${month}-${day - 1}`;
+// const date = new Date();
+// const year = date.getFullYear();
+// const month = date.getMonth();
+// const day = date.getDate();
+// const todaysDate: string = `${year}-${month}-${day}`;
+// const yesterdaysDate: string = `${year}-${month}-${day - 1}`;

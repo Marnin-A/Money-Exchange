@@ -1,4 +1,3 @@
-import Accounts from "./AccountsFrom";
 import AccountsTo from "./AccountsTo";
 export type option = {
   label: string;
