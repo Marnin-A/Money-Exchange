@@ -1,14 +1,5 @@
-import { DefaultValue, atom, selector } from "recoil";
+import { atom, selector } from "recoil";
 
-const key: string = JSON.parse(localStorage.getItem("destinationCurrency")!);
-const rate = { [key]: 1 };
-
-// export const ExchangeRateState = atom({
-//   key: "exchangeRate",
-//   default: {
-//     ...rate,
-//   },
-// });
 export const NewCurrencyState = atom({
   key: "newCurrency",
   default: "GBP",

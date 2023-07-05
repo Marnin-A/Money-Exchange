@@ -3,10 +3,9 @@ import {
   OriginalAmountState,
   OriginalCurrencyState,
 } from "./State_management/atoms";
-import { ExchangeRateState } from "./State_management/atoms";
 import { doc, setDoc } from "firebase/firestore";
 import { CurrencyProps, option } from "./FromCurrencyCard";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 export default function Accounts(props: CurrencyProps) {
   // Prop values
