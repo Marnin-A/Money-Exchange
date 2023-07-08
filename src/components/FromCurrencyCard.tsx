@@ -1,8 +1,9 @@
 import Accounts from "./AccountsFrom";
 export type option = {
+  flag?: string;
   label: string;
-  value: string;
-  sign: string;
+  value?: string;
+  sign?: string;
 };
 export interface CurrencyProps {
   options: Array<option>;

@@ -1,9 +1,5 @@
 import AccountsTo from "./AccountsTo";
-export type option = {
-  label: string;
-  value: string;
-  sign: string;
-};
+import { option } from "./FromCurrencyCard";
 export interface CurrencyProps {
   options: Array<option>;
 }

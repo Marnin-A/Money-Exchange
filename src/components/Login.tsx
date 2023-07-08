@@ -30,7 +30,7 @@ export default function Login() {
     open: false,
     errorMessage: "",
   });
-  const errorMessage = modalInfo.errorMessage.toString();
+  const errorMessage = modalInfo.errorMessage;
 
   const handleLogin = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -65,12 +65,13 @@ export default function Login() {
       })
       .catch((error) => {
         // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        const errorCode = error.errorCode;
+        const errorMessage = error.errorMessage;
         // The email of the user's account used.
-        const email = error.customData.email;
+        const email = error.email;
         // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
+        setModalInfo({ ...modalInfo, open: true, errorMessage: errorMessage });
         // ...
         console.error({ errorCode, errorMessage, email, credential });
       });
@@ -213,6 +214,11 @@ export default function Login() {
                 ? "Invalid Password"
                 : errorMessage == "Firebase: Error (auth/user-not-found)."
                 ? "Invalid email"
+                : errorMessage == "Firebase: Error (auth/popup-blocked)."
+                ? "Popup Blocked"
+                : errorMessage ==
+                  "Firebase: Error (auth/network-request-failed)."
+                ? "Network Request Failed"
                 : errorMessage}
             </span>
           </Typography>

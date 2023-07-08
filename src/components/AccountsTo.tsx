@@ -17,9 +17,9 @@ interface rateObj {
 export default function Accounts(props: CurrencyProps) {
   // Prop values
   const options = props.options;
-  const firstOptionLabel = options[0].label;
-  const firstOptionValue = options[0].value;
-  const firstOptionSign = options[0].sign;
+  const firstOptionLabel = options[1].label;
+  const firstOptionValue = options[1].value;
+  const firstOptionSign = options[1].sign;
 
   // States;
   const originalCurrency = useRecoilValue(OriginalCurrencyState);

@@ -1,21 +1,28 @@
 import ButtonAndRates from "./ButtonAndRates";
 import FromCurrencyCard from "./FromCurrencyCard";
+import AustralianFlag from "../assets/au.svg";
+import CanadianFlag from "../assets/ca.svg";
+import EU_Flag from "../assets/eu.svg";
+import BritishFlag from "../assets/gb.svg";
+import US_Flag from "../assets/us.svg";
 import ToCurrencyCard from "./ToCurrency";
 
 export default function Home() {
   const options = [
-    { label: "USD", value: "0.5889", sign: "$" },
-    { label: "GBP", value: "1 ", sign: "£" },
-    { label: "EUR", value: "0.2223", sign: "€" },
-    { label: "AUD", value: "0.5889", sign: "AU$" },
-    { label: "CAD", value: "0.2223", sign: "CA$" },
+    { label: "Select Account" },
+    { flag: US_Flag, label: "USD", value: "0.5889", sign: "$" },
+    { flag: BritishFlag, label: "GBP", value: "1 ", sign: "£" },
+    { flag: EU_Flag, label: "EUR", value: "0.2223", sign: "€" },
+    { flag: AustralianFlag, label: "AUD", value: "0.5889", sign: "AU$" },
+    { flag: CanadianFlag, label: "CAD", value: "0.2223", sign: "CA$" },
   ];
   const options2 = [
-    { label: "GBP", value: "1 ", sign: "£" },
-    { label: "USD", value: "0.5889", sign: "$" },
-    { label: "EUR", value: "0.2223", sign: "€" },
-    { label: "AUD", value: "0.5889", sign: "AU$" },
-    { label: "CAD", value: "0.2223", sign: "CA$" },
+    { label: "Select Account" },
+    { flag: BritishFlag, label: "GBP", value: "1 ", sign: "£" },
+    { flag: US_Flag, label: "USD", value: "0.5889", sign: "$" },
+    { flag: EU_Flag, label: "EUR", value: "0.2223", sign: "€" },
+    { flag: AustralianFlag, label: "AUD", value: "0.5889", sign: "AU$" },
+    { flag: CanadianFlag, label: "CAD", value: "0.2223", sign: "CA$" },
   ];
 
   return (

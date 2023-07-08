@@ -10,9 +10,9 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 export default function Accounts(props: CurrencyProps) {
   // Prop values
   const options = props.options;
-  const firstOptionLabel = options[0].label;
-  const firstOptionValue = options[0].value;
-  const firstOptionSign = options[0].sign;
+  const firstOptionLabel = options[1].label;
+  const firstOptionValue = options[1].value;
+  const firstOptionSign = options[1].sign;
   // States
   // const [todaysChange, setTodaysChange] = React.useState(0);
   const [originalAmount, setOriginalAmount] =
@@ -28,22 +28,9 @@ export default function Accounts(props: CurrencyProps) {
   );
   const originalCurrency = useSetRecoilState(OriginalCurrencyState);
 
-  // const getTodaysChange = (
-  //   amount: number,
-  //   initialCurrency: string,
-  //   destinationCurrency: string
-  // ) => {
-  //   fetch(
-  //     `https://${host}/${yesterdaysDate}..${todaysDate}?amount=${amount}&from=${initialCurrency}&to=${destinationCurrency}`
-  //   )
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setTodaysChange(data);
-  //     }).catch((error) => console.error(error));
-  // };
-
   React.useEffect(() => {
     // getRateChange(value.label,);
+
     originalCurrency({ currency: value.label });
   }, [value.label]);
 
@@ -66,11 +53,15 @@ export default function Accounts(props: CurrencyProps) {
           value={value.label}
           onChange={handleAccountSelect}
         >
-          {options.map((option, index) => (
-            <option key={index} value={option.label}>
-              {option.label}
-            </option>
-          ))}
+          {options.map((option, index) => {
+            return (
+              <>
+                <option key={index} value={option.label}>
+                  {option.label}
+                </option>
+              </>
+            );
+          })}
         </select>
         <div className=" absolute bottom-[25%] right-4 text-right px-1 text-slate-400">
           USD {value.value}
@@ -95,6 +86,7 @@ export default function Accounts(props: CurrencyProps) {
     </div>
   );
 }
+
 export function setCurrentSign(label: string) {
   switch (label) {
     case "GBP":
@@ -125,9 +117,3 @@ export function setCurrentValueInDollar(label: string) {
       return "1";
   }
 }
-// const date = new Date();
-// const year = date.getFullYear();
-// const month = date.getMonth();
-// const day = date.getDate();
-// const todaysDate: string = `${year}-${month}-${day}`;
-// const yesterdaysDate: string = `${year}-${month}-${day - 1}`;
