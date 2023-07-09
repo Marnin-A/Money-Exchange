@@ -49,7 +49,6 @@ export default function Accounts(props: CurrencyProps) {
     let newBalances: balanceElement;
     if (docSnap.exists()) {
       const response = docSnap.data();
-      console.log({ status: "fetched", response });
       newBalances = { ...response };
       setCurrentBalance(newBalances);
       setUserBalance({
@@ -60,7 +59,6 @@ export default function Accounts(props: CurrencyProps) {
         GBP: currentBalance.GBP,
         USD: currentBalance.USD,
       });
-      console.log(response);
     } else {
       // docSnap.data() will be undefined in this case
       console.error("No such document!");
@@ -77,7 +75,6 @@ export default function Accounts(props: CurrencyProps) {
   // Set the currency to convert from
   React.useEffect(() => {
     getBalances();
-    console.log(currentBalance);
     setOriginalCurrency({ currency: value.label });
   }, [value.label, didTransact]);
 

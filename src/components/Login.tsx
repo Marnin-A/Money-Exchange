@@ -39,13 +39,11 @@ export default function Login() {
         const user = userCredential.user;
         localStorage.setItem("userID", user.uid);
         navigate("/home");
-        console.log(user);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         setModalInfo({ ...modalInfo, open: true, errorMessage: errorMessage });
-
         console.log(errorCode, errorMessage);
       });
   };
@@ -59,7 +57,6 @@ export default function Login() {
         // The signed-in user info.
         const user = result.user;
         localStorage.setItem("userID", user.uid);
-        console.log(user);
         // IdP data available using getAdditionalUserInfo(result)
         // ...
         navigate("/home");
@@ -78,7 +75,6 @@ export default function Login() {
       });
   };
   const handleClose = () => setModalInfo({ ...modalInfo, open: false });
-  console.log(errorMessage);
 
   return (
     <div className="min-h-full w-[40%] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
