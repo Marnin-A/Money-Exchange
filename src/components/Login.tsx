@@ -9,7 +9,6 @@ import { auth, googleAuth } from "../firebase/firebase";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-//TODO: Add alternative Login
 
 const style = {
   position: "absolute" as "absolute",
@@ -38,6 +37,7 @@ export default function Login() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+        localStorage.setItem("userID", user.uid);
         navigate("/home");
         console.log(user);
       })
@@ -58,6 +58,7 @@ export default function Login() {
 
         // The signed-in user info.
         const user = result.user;
+        localStorage.setItem("userID", user.uid);
         console.log(user);
         // IdP data available using getAdditionalUserInfo(result)
         // ...

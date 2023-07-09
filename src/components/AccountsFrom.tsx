@@ -2,10 +2,23 @@ import * as React from "react";
 import {
   OriginalAmountState,
   OriginalCurrencyState,
+  userBalance,
 } from "./State_management/atoms";
-// import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { CurrencyProps, option } from "./FromCurrencyCard";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import { db } from "../firebase/firebase";
+
+type balanceElement = {
+  [key: string]: number;
+};
+export type balance = {
+  AUD: 10000;
+  CAD: 10000;
+  EUR: 10000;
+  GBP: 10000;
+  USD: 10000;
+};
 
 export default function Accounts(props: CurrencyProps) {
   // Prop values
@@ -13,8 +26,12 @@ export default function Accounts(props: CurrencyProps) {
   const firstOptionLabel = options[1].label;
   const firstOptionValue = options[1].value;
   const firstOptionSign = options[1].sign;
+
   // States
-  // const [todaysChange, setTodaysChange] = React.useState(0);
+  const [allBalances, setUserBalance] = useRecoilState(userBalance);
+  const [currentBalance, setCurrentBalance] = React.useState<balanceElement>(
+    {}
+  );
   const [originalAmount, setOriginalAmount] =
     useRecoilState(OriginalAmountState);
   const [value, setValue] = React.useState<option>(
@@ -26,14 +43,49 @@ export default function Accounts(props: CurrencyProps) {
           sign: firstOptionSign,
         }
   );
-  const originalCurrency = useSetRecoilState(OriginalCurrencyState);
+  const setOriginalCurrency = useSetRecoilState(OriginalCurrencyState);
+  const userID = localStorage.getItem("userID")!;
 
+  // Fetch user account balances
+  const getBalances = async () => {
+    const docRef = doc(db, "User Account Details", userID);
+    const docSnap = await getDoc(docRef);
+    let newBalances: balanceElement;
+    if (docSnap.exists()) {
+      const response = docSnap.data();
+      console.log({ status: "fetched", response });
+      newBalances = { ...response };
+      setCurrentBalance(newBalances);
+      setUserBalance({
+        ...allBalances,
+        AUD: response.AUD,
+        CAD: response.CAD,
+        EUR: response.EUR,
+        GBP: response.GBP,
+        USD: response.USD,
+      });
+      console.log(response);
+    } else {
+      // docSnap.data() will be undefined in this case
+      console.error("No such document!");
+      return {
+        AUD: 10000,
+        CAD: 10000,
+        EUR: 10000,
+        GBP: 10000,
+        USD: 10000,
+      };
+    }
+  };
+
+  // Set the currency to convert from
   React.useEffect(() => {
-    // getRateChange(value.label,);
-
-    originalCurrency({ currency: value.label });
+    getBalances();
+    console.log(currentBalance);
+    setOriginalCurrency({ currency: value.label });
   }, [value.label]);
 
+  // Select an account based on currency
   const handleAccountSelect = (e: {
     target: { value: React.SetStateAction<any> };
   }) => {
@@ -45,6 +97,7 @@ export default function Accounts(props: CurrencyProps) {
     });
   };
 
+  console.log(currentBalance);
   return (
     <div className="">
       <div className="relative pb-2 hover:border-b-black border-b-[1px]">
@@ -55,16 +108,14 @@ export default function Accounts(props: CurrencyProps) {
         >
           {options.map((option, index) => {
             return (
-              <>
-                <option key={index} value={option.label}>
-                  {option.label}
-                </option>
-              </>
+              <option key={index} value={option.label}>
+                {option.label}
+              </option>
             );
           })}
         </select>
         <div className=" absolute bottom-[25%] right-4 text-right px-1 text-slate-400">
-          USD {value.value}
+          {value.label} {currentBalance[value.label]}
         </div>
       </div>
       <hr className="" />
@@ -86,7 +137,6 @@ export default function Accounts(props: CurrencyProps) {
     </div>
   );
 }
-
 export function setCurrentSign(label: string) {
   switch (label) {
     case "GBP":

@@ -35,3 +35,11 @@ export const OriginalCurrencyState = atom({
     currency: "USD",
   },
 });
+export const currentUserID = atom({
+  key: "currentUser",
+  default: "",
+});
+export const userBalance = atom({
+  key: "userBalance",
+  default: { AUD: 10000, CAD: 10000, EUR: 10000, GBP: 10000, USD: 10000 },
+});

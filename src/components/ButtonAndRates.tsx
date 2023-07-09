@@ -22,7 +22,9 @@ export default function ButtonAndRates() {
     //   )
     // );
   }, [rate]);
-  console.log(rateChange);
+  // const transferAmount = (originalAmount, transferedAmount) =>{
+
+  // }
 
   return (
     <div className=" w-[100%] grid grid-cols-2 gap-[12%] items-center">
