@@ -2,23 +2,18 @@ import * as React from "react";
 import {
   OriginalAmountState,
   OriginalCurrencyState,
+  didTransactState,
   userBalance,
 } from "./State_management/atoms";
 import { doc, getDoc } from "firebase/firestore";
 import { CurrencyProps, option } from "./FromCurrencyCard";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { db } from "../firebase/firebase";
 
-type balanceElement = {
+export type balanceElement = {
   [key: string]: number;
 };
-export type balance = {
-  AUD: 10000;
-  CAD: 10000;
-  EUR: 10000;
-  GBP: 10000;
-  USD: 10000;
-};
+//TODO: Add account balance updates
 
 export default function Accounts(props: CurrencyProps) {
   // Prop values
@@ -44,6 +39,7 @@ export default function Accounts(props: CurrencyProps) {
         }
   );
   const setOriginalCurrency = useSetRecoilState(OriginalCurrencyState);
+  const didTransact = useRecoilValue(didTransactState);
   const userID = localStorage.getItem("userID")!;
 
   // Fetch user account balances
@@ -58,11 +54,11 @@ export default function Accounts(props: CurrencyProps) {
       setCurrentBalance(newBalances);
       setUserBalance({
         ...allBalances,
-        AUD: response.AUD,
-        CAD: response.CAD,
-        EUR: response.EUR,
-        GBP: response.GBP,
-        USD: response.USD,
+        AUD: currentBalance.AUD,
+        CAD: currentBalance.CAD,
+        EUR: currentBalance.EUR,
+        GBP: currentBalance.GBP,
+        USD: currentBalance.USD,
       });
       console.log(response);
     } else {
@@ -83,7 +79,7 @@ export default function Accounts(props: CurrencyProps) {
     getBalances();
     console.log(currentBalance);
     setOriginalCurrency({ currency: value.label });
-  }, [value.label]);
+  }, [value.label, didTransact]);
 
   // Select an account based on currency
   const handleAccountSelect = (e: {

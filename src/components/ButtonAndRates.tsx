@@ -1,16 +1,25 @@
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { doc, updateDoc } from "firebase/firestore";
 import {
   ExchangeRateState,
   NewCurrencyState,
+  OriginalAmountState,
   OriginalCurrencyState,
+  didTransactState,
+  userBalance,
 } from "./State_management/atoms";
 import React from "react";
+import { db } from "../firebase/firebase";
+import { balanceElement } from "./AccountsFrom";
 export default function ButtonAndRates() {
   const rate = useRecoilValue(ExchangeRateState);
   const [currentRate, setCurrentRate] = React.useState(1);
-  const [rateChange, setRateChange] = React.useState({});
+  // const [rateChange, setRateChange] = React.useState({});
   const originalCurrency = useRecoilValue(OriginalCurrencyState);
   const newCurrency = useRecoilValue(NewCurrencyState);
+  const originalAmount = useRecoilValue(OriginalAmountState);
+  const [userBalances, setUserBalances] = useRecoilState(userBalance);
+  const [didTransact, setDidTransact] = useRecoilState(didTransactState);
   React.useEffect(() => {
     setCurrentRate(rate);
     // setRateChange(
@@ -22,14 +31,29 @@ export default function ButtonAndRates() {
     //   )
     // );
   }, [rate]);
-  // const transferAmount = (originalAmount, transferedAmount) =>{
-
-  // }
+  const transferAmount = async () => {
+    const userID = localStorage.getItem("userID")!;
+    const accountDocRef = doc(db, "User Account Details", userID);
+    const key1 = originalCurrency.currency;
+    const key2 = newCurrency;
+    const userAccount: balanceElement = { ...userBalances };
+    const newValue1 = userAccount[key1] - originalAmount.amount; // Subtract from original account
+    const newValue2 = userAccount[key2] + originalAmount.amount; // Add to second account
+    await updateDoc(accountDocRef, {
+      [key1]: newValue1,
+      [key2]: newValue2,
+    });
+    setUserBalances({ ...userBalances, [key1]: newValue1, [key2]: newValue2 });
+    setDidTransact(didTransact + 1);
+  };
 
   return (
     <div className=" w-[100%] grid grid-cols-2 gap-[12%] items-center">
       <div>
-        <button className=" bg-[#FDDAEF] text-white hover:bg-[#E70083] w-full p-2 rounded-3xl font-semibold">
+        <button
+          onClick={transferAmount}
+          className=" bg-[#FDDAEF] text-white hover:bg-[#E70083] w-full p-2 rounded-3xl font-semibold"
+        >
           Continue
         </button>
       </div>
@@ -46,9 +70,10 @@ export default function ButtonAndRates() {
     </div>
   );
 }
-const addLeadingZero = (number: number): string => {
-  return number.toString().padStart(2, "0");
-};
+// Add a leading zero to the month of day if its a single digit
+// const addLeadingZero = (number: number): string => {
+//   return number.toString().padStart(2, "0");
+// };
 // Get date value
 // const date = new Date();
 // const day = date.getDate();

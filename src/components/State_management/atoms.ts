@@ -43,3 +43,7 @@ export const userBalance = atom({
   key: "userBalance",
   default: { AUD: 10000, CAD: 10000, EUR: 10000, GBP: 10000, USD: 10000 },
 });
+export const didTransactState = atom({
+  key: "didTransact",
+  default: 0,
+});

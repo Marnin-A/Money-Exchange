@@ -10,8 +10,6 @@ import { signInWithPopup } from "firebase/auth";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-//TODO: Add alternative Signup
-//TODO: Redirect on alternate sign-in
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
