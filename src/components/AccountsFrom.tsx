@@ -43,13 +43,15 @@ export default function Accounts(props: CurrencyProps) {
   const userID = localStorage.getItem("userID")!;
 
   // Fetch user account balances
-  const getBalances = async () => {
+  const getAccountBalances = async () => {
     const docRef = doc(db, "User Account Details", userID);
     const docSnap = await getDoc(docRef);
     let newBalances: balanceElement;
     if (docSnap.exists()) {
       const response = docSnap.data();
       newBalances = { ...response };
+      console.log(newBalances);
+
       setCurrentBalance(newBalances);
       setUserBalance({
         ...allBalances,
@@ -74,7 +76,7 @@ export default function Accounts(props: CurrencyProps) {
 
   // Set the currency to convert from
   React.useEffect(() => {
-    getBalances();
+    getAccountBalances();
     setOriginalCurrency({ currency: value.label });
   }, [value.label, didTransact]);
 

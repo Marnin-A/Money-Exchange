@@ -59,7 +59,7 @@ export default function Accounts(props: CurrencyProps) {
     });
   };
   // Fetch and set rate information
-  const getRate = async () => {
+  const getConversionRate = async () => {
     const currency = value.label;
     const rateObj = await convertCurrency(
       originalCurrency.currency,
@@ -102,7 +102,7 @@ export default function Accounts(props: CurrencyProps) {
 
   React.useEffect(() => {
     setNewCurrency(value.label);
-    getRate();
+    getConversionRate();
     setFinalAmount(amount * conversionRate);
     getBalances();
   }, [value.label, amount, originalCurrency]);

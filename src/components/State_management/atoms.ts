@@ -1,4 +1,5 @@
 import { atom, selector } from "recoil";
+import { balanceElement } from "../AccountsFrom";
 
 export const NewCurrencyState = atom({
   key: "newCurrency",
@@ -39,9 +40,10 @@ export const currentUserID = atom({
   key: "currentUser",
   default: "",
 });
+const balanceObj: balanceElement = {};
 export const userBalance = atom({
   key: "userBalance",
-  default: { AUD: 10000, CAD: 10000, EUR: 10000, GBP: 10000, USD: 10000 },
+  default: balanceObj,
 });
 export const didTransactState = atom({
   key: "didTransact",
