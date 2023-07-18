@@ -7,5 +7,9 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     base: process.env.PUBLIC_URL,
+    screens: {
+      sm: { max: "639px" },
+      md2: "920px",
+    },
   };
 });

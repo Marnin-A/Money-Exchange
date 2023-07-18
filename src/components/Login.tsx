@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
-const style = {
+export const style = {
   position: "absolute" as "absolute",
   top: "50%",
   left: "50%",
@@ -41,6 +41,7 @@ export default function Login() {
         navigate("/home");
       })
       .catch((error) => {
+        console.log(error);
         const errorCode = error.code;
         const errorMessage = error.message;
         setModalInfo({ ...modalInfo, open: true, errorMessage: errorMessage });
@@ -57,11 +58,14 @@ export default function Login() {
         // The signed-in user info.
         const user = result.user;
         localStorage.setItem("userID", user.uid);
+        // // Save token to local storage
+        // localStorage.setItem("token", token ? token : "no user");
         // IdP data available using getAdditionalUserInfo(result)
         // ...
         navigate("/home");
       })
       .catch((error) => {
+        console.log(error);
         // Handle Errors here.
         const errorCode = error.errorCode;
         const errorMessage = error.errorMessage;
@@ -77,7 +81,7 @@ export default function Login() {
   const handleClose = () => setModalInfo({ ...modalInfo, open: false });
 
   return (
-    <div className="min-h-full w-[40%] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-full w-[80%] md2:w-[40%] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="text-center font-bold text-2xl">Log in</div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
@@ -207,20 +211,22 @@ export default function Login() {
             component="h2"
           >
             <span className=" text-lg font-semibold text-center">
-              {errorMessage == "Firebase: Error (auth/wrong-password)."
-                ? "Invalid Password"
-                : errorMessage == "Firebase: Error (auth/user-not-found)."
-                ? "Invalid email"
-                : errorMessage == "Firebase: Error (auth/popup-blocked)."
-                ? "Popup Blocked"
-                : errorMessage ==
-                  "Firebase: Error (auth/network-request-failed)."
-                ? "Network Request Failed"
-                : errorMessage}
+              {setErrorTitle(errorMessage)}
             </span>
           </Typography>
         </Box>
       </Modal>
     </div>
   );
+}
+function setErrorTitle(errorMessage: string): string {
+  return errorMessage == "Firebase: Error (auth/wrong-password)."
+    ? "Invalid Password"
+    : errorMessage == "Firebase: Error (auth/user-not-found)."
+    ? "Invalid email"
+    : errorMessage == "Firebase: Error (auth/popup-blocked)."
+    ? "Popup Blocked"
+    : errorMessage == "Firebase: Error (auth/network-request-failed)."
+    ? "Network Request Failed"
+    : errorMessage;
 }

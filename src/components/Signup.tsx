@@ -53,6 +53,8 @@ export default function Signup() {
         // ...
       })
       .catch((error) => {
+        console.log(error);
+
         const errorCode = error.code;
         const errorMessage = error.message;
         setModalInfo({
@@ -69,11 +71,13 @@ export default function Signup() {
     signInWithPopup(auth, googleAuth)
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
-        // const credential = GoogleAuthProvider.credentialFromResult(result);
-        // const token = credential!.accessToken;
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential!.accessToken;
 
         // The signed-in user info.
         const user = result.user;
+        // Save token to local storage
+        // localStorage.setItem("token", token ? token : "no user");
         console.log(user);
         // IdP data available using getAdditionalUserInfo(result)
         // ...
@@ -81,6 +85,7 @@ export default function Signup() {
         navigate("/home");
       })
       .catch((error) => {
+        console.log(error);
         // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
@@ -233,16 +238,20 @@ export default function Signup() {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            <span className=" text-lg font-semibold">Weak Password</span>
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {errorMessage ==
-            "Firebase: Password should be at least 6 characters (auth/weak-password)."
-              ? "Password should be at least 6 characters."
-              : errorMessage}
+            <span className=" text-lg font-semibold w-max">
+              {setErrorTitle(errorMessage)}
+            </span>
           </Typography>
         </Box>
       </Modal>
     </div>
   );
+}
+function setErrorTitle(errorMessage: string): string {
+  return errorMessage ==
+    "Firebase: Password should be at least 6 characters (auth/weak-password)."
+    ? "Password should be at least 6 characters."
+    : errorMessage == undefined
+    ? "Sorry we're experiencing technical issues"
+    : errorMessage;
 }

@@ -9,6 +9,8 @@ import { doc, getDoc } from "firebase/firestore";
 import { CurrencyProps, option } from "./FromCurrencyCard";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { db } from "../firebase/firebase";
+import { Box, Modal, Typography } from "@mui/material";
+import { style } from "./Login";
 
 export type balanceElement = {
   [key: string]: number;
@@ -23,7 +25,9 @@ export default function Accounts(props: CurrencyProps) {
   const firstOptionSign = options[1].sign;
 
   // States
-  const [allBalances, setUserBalance] = useRecoilState(userBalance);
+  // globalBalance and currentBalance hold the same value with the difference
+  // being that global balance is globally accessible
+  const [globalBalance, setGlobalBalance] = useRecoilState(userBalance);
   const [currentBalance, setCurrentBalance] = React.useState<balanceElement>(
     {}
   );
@@ -38,9 +42,14 @@ export default function Accounts(props: CurrencyProps) {
           sign: firstOptionSign,
         }
   );
+  const [modalInfo, setModalInfo] = React.useState({
+    open: false,
+    errorMessage: "",
+  });
   const setOriginalCurrency = useSetRecoilState(OriginalCurrencyState);
   const didTransact = useRecoilValue(didTransactState);
   const userID = localStorage.getItem("userID")!;
+  const errorMessage = modalInfo.errorMessage;
 
   // Fetch user account balances
   const getAccountBalances = async () => {
@@ -51,10 +60,9 @@ export default function Accounts(props: CurrencyProps) {
       const response = docSnap.data();
       newBalances = { ...response };
       console.log(newBalances);
-
       setCurrentBalance(newBalances);
-      setUserBalance({
-        ...allBalances,
+      setGlobalBalance({
+        ...globalBalance,
         AUD: currentBalance.AUD,
         CAD: currentBalance.CAD,
         EUR: currentBalance.EUR,
@@ -63,6 +71,7 @@ export default function Accounts(props: CurrencyProps) {
       });
     } else {
       // docSnap.data() will be undefined in this case
+      setModalInfo({ ...modalInfo, errorMessage: "No such document" });
       console.error("No such document!");
       return {
         AUD: 10000,
@@ -91,7 +100,7 @@ export default function Accounts(props: CurrencyProps) {
       sign: setCurrentSign(e.target.value),
     });
   };
-
+  const handleClose = () => setModalInfo({ ...modalInfo, open: false });
   console.log(currentBalance);
   return (
     <div className="">
@@ -129,6 +138,34 @@ export default function Accounts(props: CurrencyProps) {
           }}
         />
       </div>
+      <Modal
+        open={modalInfo.open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography
+            id="modal-modal-title"
+            className=" flex justify-center"
+            variant="h6"
+            component="h2"
+          >
+            <span className=" text-lg font-semibold text-center">
+              {errorMessage == "Firebase: Error (auth/wrong-password)."
+                ? "Invalid Password"
+                : errorMessage == "Firebase: Error (auth/user-not-found)."
+                ? "Invalid email"
+                : errorMessage == "Firebase: Error (auth/popup-blocked)."
+                ? "Popup Blocked"
+                : errorMessage ==
+                  "Firebase: Error (auth/network-request-failed)."
+                ? "Network Request Failed"
+                : errorMessage}
+            </span>
+          </Typography>
+        </Box>
+      </Modal>
     </div>
   );
 }
