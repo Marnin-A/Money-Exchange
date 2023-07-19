@@ -7,7 +7,7 @@ import {
   OriginalCurrencyState,
   didTransactState,
   userBalance,
-} from "./State_management/atoms";
+} from "../State_management/atoms";
 import React from "react";
 import { db } from "../firebase/firebase";
 import { balanceElement } from "./AccountsFrom";

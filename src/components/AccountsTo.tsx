@@ -12,11 +12,11 @@ import {
   OriginalAmountState,
   NewCurrencyState,
   userBalance,
-} from "./State_management/atoms";
+} from "../State_management/atoms";
 import { db } from "../firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { Box, Modal, Typography } from "@mui/material";
-import { style } from "./Login";
+import { style } from "../pages/Login";
 
 // Determine how the rate data fetched should look
 interface rateObj {

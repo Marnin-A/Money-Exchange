@@ -1,11 +1,11 @@
-import ButtonAndRates from "./ButtonAndRates";
-import FromCurrencyCard from "./FromCurrencyCard";
+import ButtonAndRates from "../components/ButtonAndRates";
+import FromCurrencyCard from "../components/FromCurrencyCard";
 import AustralianFlag from "../assets/au.svg";
 import CanadianFlag from "../assets/ca.svg";
 import EU_Flag from "../assets/eu.svg";
 import BritishFlag from "../assets/gb.svg";
 import US_Flag from "../assets/us.svg";
-import ToCurrencyCard from "./ToCurrency";
+import ToCurrencyCard from "../components/ToCurrency";
 
 export default function Home() {
   const options = [

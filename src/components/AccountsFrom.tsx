@@ -4,13 +4,13 @@ import {
   OriginalCurrencyState,
   didTransactState,
   userBalance,
-} from "./State_management/atoms";
+} from "../State_management/atoms";
 import { doc, getDoc } from "firebase/firestore";
 import { CurrencyProps, option } from "./FromCurrencyCard";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { db } from "../firebase/firebase";
 import { Box, Modal, Typography } from "@mui/material";
-import { style } from "./Login";
+import { style } from "../pages/Login";
 
 export type balanceElement = {
   [key: string]: number;

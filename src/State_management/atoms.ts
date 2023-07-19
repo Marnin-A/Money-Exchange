@@ -1,5 +1,5 @@
 import { atom, selector } from "recoil";
-import { balanceElement } from "../AccountsFrom";
+import { balanceElement } from "../components/AccountsFrom";
 
 export const NewCurrencyState = atom({
   key: "newCurrency",
