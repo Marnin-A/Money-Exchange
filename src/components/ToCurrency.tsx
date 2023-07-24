@@ -1,8 +1,6 @@
 import AccountsTo from "./AccountsTo";
-import { option } from "./FromCurrencyCard";
-export interface CurrencyProps {
-  options: Array<option>;
-}
+import { CurrencyProps } from "../types";
+
 export default function ToCurrencyCard(props: CurrencyProps) {
   const options = props.options;
 

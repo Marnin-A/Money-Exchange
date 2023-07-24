@@ -1,10 +1,7 @@
 import * as React from "react";
-import {
-  balanceElement,
-  setCurrentSign,
-  setCurrentValueInDollar,
-} from "./AccountsFrom";
-import { CurrencyProps, option } from "./FromCurrencyCard";
+import { setCurrentSign, setCurrentValueInDollar } from "./AccountsFrom";
+import { balanceElement } from "../types";
+import { CurrencyProps, option } from "../types";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   ExchangeRateState,

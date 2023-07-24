@@ -6,15 +6,12 @@ import {
   userBalance,
 } from "../State_management/atoms";
 import { doc, getDoc } from "firebase/firestore";
-import { CurrencyProps, option } from "./FromCurrencyCard";
+import { CurrencyProps, option } from "../types";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { db } from "../firebase/firebase";
 import { Box, Modal, Typography } from "@mui/material";
 import { style } from "../pages/Login";
-
-export type balanceElement = {
-  [key: string]: number;
-};
+import { balanceElement } from "../types";
 //TODO: Add account balance updates
 
 export default function Accounts(props: CurrencyProps) {
