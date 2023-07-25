@@ -10,7 +10,7 @@ import {
 } from "../State_management/atoms";
 import React from "react";
 import { db } from "../firebase/firebase";
-import { balanceElement } from "./AccountsFrom";
+import { balanceElement } from "../types";
 export default function ButtonAndRates() {
   const rate = useRecoilValue(ExchangeRateState);
   const [currentRate, setCurrentRate] = React.useState(1);
