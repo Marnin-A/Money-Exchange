@@ -54,6 +54,11 @@ export default function Login() {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential!.accessToken;
+        if (token) {
+          localStorage.setItem("token", token);
+        } else {
+          localStorage.setItem("token", "no token");
+        }
 
         // The signed-in user info.
         const user = result.user;
