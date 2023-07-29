@@ -42,7 +42,6 @@ export default function Login() {
       })
       .catch((error) => {
         // console.log(error);
-        const errorCode = error.code;
         const errorMessage = error.message;
         setModalInfo({ ...modalInfo, open: true, errorMessage: errorMessage });
         // console.log(errorCode, errorMessage);
