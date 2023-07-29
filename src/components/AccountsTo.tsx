@@ -117,7 +117,7 @@ export default function Accounts(props: CurrencyProps) {
   }, [value.label, amount, originalCurrency]);
 
   return (
-    <div className="">
+    <div className=" max-md:text-xs">
       <div className="relative pb-2 hover:border-b-black border-b-[1px]">
         <select
           className="w-[100%] outline-none"
@@ -135,9 +135,9 @@ export default function Accounts(props: CurrencyProps) {
         </div>
       </div>
       <hr className="" />
-      <div className="flex mt-4">
+      <div className="flex mt-4 max-md:-mt-4 items-center">
         <span className="text-[350%] w-min">{value.sign}</span>
-        <div className="h-[20vh] w-10/12 text-[350%] outline-none overflow-hidden">
+        <div className="h-[20vh] w-10/12 text-[350%] outline-none flex items-center overflow-hidden">
           {finalAmount.toFixed(2)}
         </div>
       </div>
@@ -184,8 +184,8 @@ const convertCurrency = (
     .then((res) => res.json())
     .then((data) => {
       const rate = data.rates;
-      console.log(rate);
-      console.log(data);
+      // console.log(rate);
+      // console.log(data);
       return rate;
     })
     .catch((error) => console.error(error));

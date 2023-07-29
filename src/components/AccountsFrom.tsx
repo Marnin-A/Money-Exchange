@@ -46,37 +46,41 @@ export default function Accounts(props: CurrencyProps) {
   const setOriginalCurrency = useSetRecoilState(OriginalCurrencyState);
   const didTransact = useRecoilValue(didTransactState);
   const userID = localStorage.getItem("userID")!;
-  const errorMessage = modalInfo.errorMessage;
+  // const errorMessage = modalInfo.errorMessage;
 
   // Fetch user account balances
   const getAccountBalances = async () => {
-    const docRef = doc(db, "User Account Details", userID);
-    const docSnap = await getDoc(docRef);
-    let newBalances: balanceElement;
-    if (docSnap.exists()) {
-      const response = docSnap.data();
-      newBalances = { ...response };
-      console.log(newBalances);
-      setCurrentBalance(newBalances);
-      setGlobalBalance({
-        ...globalBalance,
-        AUD: currentBalance.AUD,
-        CAD: currentBalance.CAD,
-        EUR: currentBalance.EUR,
-        GBP: currentBalance.GBP,
-        USD: currentBalance.USD,
-      });
-    } else {
-      // docSnap.data() will be undefined in this case
-      setModalInfo({ ...modalInfo, errorMessage: "No such document" });
-      console.error("No such document!");
-      return {
-        AUD: 10000,
-        CAD: 10000,
-        EUR: 10000,
-        GBP: 10000,
-        USD: 10000,
-      };
+    try {
+      const docRef = doc(db, "User Account Details", userID);
+      const docSnap = await getDoc(docRef);
+      let newBalances: balanceElement;
+      if (docSnap.exists()) {
+        const response = docSnap.data();
+        newBalances = { ...response };
+        // console.log(newBalances);
+        setCurrentBalance(newBalances);
+        setGlobalBalance({
+          ...globalBalance,
+          AUD: currentBalance.AUD,
+          CAD: currentBalance.CAD,
+          EUR: currentBalance.EUR,
+          GBP: currentBalance.GBP,
+          USD: currentBalance.USD,
+        });
+      } else {
+        // docSnap.data() will be undefined in this case
+        setModalInfo({ ...modalInfo, errorMessage: "No such document" });
+        console.error("No such document!");
+        return {
+          AUD: 10000,
+          CAD: 10000,
+          EUR: 10000,
+          GBP: 10000,
+          USD: 10000,
+        };
+      }
+    } catch (error) {
+      setModalInfo({ ...modalInfo, open: true });
     }
   };
 
@@ -98,9 +102,9 @@ export default function Accounts(props: CurrencyProps) {
     });
   };
   const handleClose = () => setModalInfo({ ...modalInfo, open: false });
-  console.log(currentBalance);
+  // console.log(currentBalance);
   return (
-    <div className="">
+    <div className=" max-md:text-xs">
       <div className="relative pb-2 hover:border-b-black border-b-[1px]">
         <select
           className="w-[100%] outline-none"
@@ -148,18 +152,14 @@ export default function Accounts(props: CurrencyProps) {
             variant="h6"
             component="h2"
           >
-            <span className=" text-lg font-semibold text-center">
-              {errorMessage == "Firebase: Error (auth/wrong-password)."
-                ? "Invalid Password"
-                : errorMessage == "Firebase: Error (auth/user-not-found)."
-                ? "Invalid email"
-                : errorMessage == "Firebase: Error (auth/popup-blocked)."
-                ? "Popup Blocked"
-                : errorMessage ==
-                  "Firebase: Error (auth/network-request-failed)."
-                ? "Network Request Failed"
-                : errorMessage}
-            </span>
+            ⚠️Something went wrong
+          </Typography>
+          <Typography
+            id="modal-modal-description"
+            sx={{ mt: 2 }}
+            className="text-center"
+          >
+            Try refreshing the page or check your internet access
           </Typography>
         </Box>
       </Modal>
