@@ -86,10 +86,10 @@ export default function ButtonAndRates() {
 // const month = addLeadingZero(date.getMonth());
 // const todaysDate: string = `${year}-${month}-${addLeadingZero(day)}`;
 // const yesterdaysDate: string = `${year}-${month}-${addLeadingZero(day - 1)}`;
-// // console.log({ st: todaysDate, nd: yesterdaysDate });
+// console.log({ st: todaysDate, nd: yesterdaysDate });
 // const number = 10;
 
-// console.log(number.toString().padStart(2, "0"));
+console.log(number.toString().padStart(2, "0"));
 
 // // Define function to get change in currency values in 1 day
 // const host = "api.frankfurter.app";

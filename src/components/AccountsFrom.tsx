@@ -57,7 +57,7 @@ export default function Accounts(props: CurrencyProps) {
       if (docSnap.exists()) {
         const response = docSnap.data();
         newBalances = { ...response };
-        // console.log(newBalances);
+        console.log(newBalances);
         setCurrentBalance(newBalances);
         setGlobalBalance({
           ...globalBalance,
@@ -102,7 +102,7 @@ export default function Accounts(props: CurrencyProps) {
     });
   };
   const handleClose = () => setModalInfo({ ...modalInfo, open: false });
-  // console.log(currentBalance);
+  console.log(currentBalance);
   return (
     <div className=" max-md:text-xs">
       <div className="relative pb-2 hover:border-b-black border-b-[1px]">

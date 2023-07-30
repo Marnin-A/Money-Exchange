@@ -41,11 +41,11 @@ export default function Login() {
         navigate("/home");
       })
       .catch((error) => {
-        // console.log(error);
-        const errorCode = error.code;
+        console.log(error);
+
         const errorMessage = error.message;
         setModalInfo({ ...modalInfo, open: true, errorMessage: errorMessage });
-        // console.log(errorCode, errorMessage);
+        console.log(errorMessage);
       });
   };
   const handleGoogleLogin = () => {
@@ -70,7 +70,7 @@ export default function Login() {
         navigate("/home");
       })
       .catch((error) => {
-        // console.log(error);
+        console.log(error);
         // Handle Errors here.
         const errorCode = error.errorCode;
         const errorMessage = error.errorMessage;
