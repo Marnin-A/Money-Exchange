@@ -48,19 +48,19 @@ export default function Signup() {
         // Signed in
         const user = userCredential.user;
         setDefaultAccountBalance(user.uid);
-        console.log(user);
+        // console.log(user);
         navigate("/");
         // ...
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         error.message;
         setModalInfo({
           ...modalInfo,
           open: true,
           errorMessage: error.message,
         });
-        console.log(errorMessage);
+        // console.log(errorMessage);
         // ..
       });
   };
@@ -81,14 +81,14 @@ export default function Signup() {
         const user = result.user;
         // Save token to local storage
         // localStorage.setItem("token", token ? token : "no user");
-        console.log(user);
+        // console.log(user);
         // IdP data available using getAdditionalUserInfo(result)
         // ...
         setDefaultAccountBalance(user.uid);
         navigate("/home");
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;

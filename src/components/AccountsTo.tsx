@@ -184,8 +184,8 @@ const convertCurrency = (
     .then((res) => res.json())
     .then((data) => {
       const rate = data.rates;
-      console.log(rate);
-      console.log(data);
+      // console.log(rate);
+      // console.log(data);
       return rate;
     })
     .catch((error) => console.error(error));

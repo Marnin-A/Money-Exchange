@@ -11,6 +11,8 @@ import {
 import React from "react";
 import { db } from "../firebase/firebase";
 import { balanceElement } from "../types";
+import { Modal, Box, Typography } from "@mui/material";
+import { style } from "../pages/Login";
 export default function ButtonAndRates() {
   const rate = useRecoilValue(ExchangeRateState);
   const [currentRate, setCurrentRate] = React.useState(1);
@@ -20,6 +22,10 @@ export default function ButtonAndRates() {
   const originalAmount = useRecoilValue(OriginalAmountState);
   const [userBalances, setUserBalances] = useRecoilState(userBalance);
   const [didTransact, setDidTransact] = useRecoilState(didTransactState);
+  const [error, setError] = React.useState({
+    errorMessage: "",
+    didError: false,
+  });
   React.useEffect(() => {
     setCurrentRate(rate);
     // setRateChange(
@@ -33,19 +39,33 @@ export default function ButtonAndRates() {
   }, [rate]);
   const transferAmount = async () => {
     const userID = localStorage.getItem("userID")!;
-    const accountDocRef = doc(db, "User Account Details", userID);
+
     const key1 = originalCurrency.currency;
     const key2 = newCurrency;
     const userAccount: balanceElement = { ...userBalances };
     const newValue1 = userAccount[key1] - originalAmount.amount; // Subtract from original account
     const newValue2 = userAccount[key2] + originalAmount.amount; // Add to second account
-    await updateDoc(accountDocRef, {
-      [key1]: newValue1,
-      [key2]: newValue2,
-    });
-    setUserBalances({ ...userBalances, [key1]: newValue1, [key2]: newValue2 });
-    setDidTransact(didTransact + 1);
+    try {
+      const accountDocRef = doc(db, "User Account Details", userID);
+      await updateDoc(accountDocRef, {
+        [key1]: newValue1,
+        [key2]: newValue2,
+      });
+      setUserBalances({
+        ...userBalances,
+        [key1]: newValue1,
+        [key2]: newValue2,
+      });
+      setDidTransact(didTransact + 1);
+    } catch (error: unknown) {
+      console.log(error);
+
+      const errorMessage: string = error as string;
+      setError({ errorMessage: errorMessage, didError: true });
+    }
   };
+
+  const handleClose = () => setError({ ...error, didError: false });
 
   return (
     <div className=" w-full flex gap-[8%] max-md:grid max-md:grid-rows-2 items-center">
@@ -72,6 +92,30 @@ export default function ButtonAndRates() {
           </div>
         </div>
       </div>
+      <Modal
+        open={error.didError}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography
+            id="modal-modal-title"
+            className=" flex justify-center"
+            variant="h6"
+            component="h2"
+          >
+            ⚠️Something went wrong
+          </Typography>
+          <Typography
+            id="modal-modal-description"
+            sx={{ mt: 2 }}
+            className="text-center"
+          >
+            Try refreshing the page or check your internet access
+          </Typography>
+        </Box>
+      </Modal>
     </div>
   );
 }
@@ -86,10 +130,10 @@ export default function ButtonAndRates() {
 // const month = addLeadingZero(date.getMonth());
 // const todaysDate: string = `${year}-${month}-${addLeadingZero(day)}`;
 // const yesterdaysDate: string = `${year}-${month}-${addLeadingZero(day - 1)}`;
-// console.log({ st: todaysDate, nd: yesterdaysDate });
+// // console.log({ st: todaysDate, nd: yesterdaysDate });
 // const number = 10;
 
-// console.log(number.toString().padStart(2, "0"));
+// // console.log(number.toString().padStart(2, "0"));
 
 // // Define function to get change in currency values in 1 day
 // const host = "api.frankfurter.app";
