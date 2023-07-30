@@ -89,7 +89,7 @@ export default function ButtonAndRates() {
 // console.log({ st: todaysDate, nd: yesterdaysDate });
 // const number = 10;
 
-console.log(number.toString().padStart(2, "0"));
+// console.log(number.toString().padStart(2, "0"));
 
 // // Define function to get change in currency values in 1 day
 // const host = "api.frankfurter.app";

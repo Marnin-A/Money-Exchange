@@ -53,13 +53,8 @@ export default function Signup() {
         // ...
       })
       .catch((error) => {
-<<<<<<< HEAD
-        // console.log(error);
-        const errorMessage = error.message;
-=======
         console.log(error);
         error.message;
->>>>>>> demo
         setModalInfo({
           ...modalInfo,
           open: true,
